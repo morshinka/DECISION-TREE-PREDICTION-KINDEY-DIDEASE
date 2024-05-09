@@ -1,68 +1,55 @@
-import streamlit as st 
+import streamlit as st
 from web_function import predict
 
 def app(df, x, y):
     st.title("Halaman Prediksi")
     
-    col1, col2, col3, = st.columns(3)
+    # Membuat kolom input
+    col1, col2, col3 = st.columns(3)
     
-    with col1:
-        bp = st.text_input('Nilai Input Blood Pressure')
-    with col1:
-        sg = st.text_input('Nilai Input Specific Gravity')
-    with col1:
-        al = st.text_input('Nilai Input Albumin')
-    with col1:
-        su = st.text_input('Nilai Input Sugar')
-    with col1:
-        rbc = st.text_input('Nilai Input Red Blood Cells')
-    with col1:
-        pc = st.text_input('Nilai Input Peripheral Circle')
-    with col1:
-        pcc = st.text_input('Nilai Input Peripheral Cell')
-    with col1:
-        ba = st.text_input('Nilai Input Basal Cell')
-    with col2:
-        bgr = st.text_input('Nilai Input Blood Glucose Random')
-    with col2:
-        bu = st.text_input('Nilai Input Blood Urea')
-    with col2:
-        sc = st.text_input('Nilai Input Serum Creatinine')
-    with col2:
-        sod = st.text_input('Nilai Input Sodium')
-    with col2:
-        pot = st.text_input('Nilai Input Potassium')
-    with col2:
-        hemo = st.text_input('Nilai Input Hemoglobin')
-    with col2:
-        pcv = st.text_input('Nilai Input Packed Cell Volume')
-    with col2:
-        wc = st.text_input('Nilai Input White Cell Count')
-    with col3:
-        rc = st.text_input('Nilai Input Red Cell Count')
-    with col3:
-        htn = st.text_input('Nilai Input Hypertension')
-    with col3:
-        dm = st.text_input('Nilai Input Diabetes Mellitus')
-    with col3:
-        cad = st.text_input('Nilai Input CAD')
-    with col3:
-        appet = st.text_input('Nilai Input Appetite')
-    with col3:
-        pe = st.text_input('Nilai Input Pedal Edema')
-    with col3:
-        ane = st.text_input('Nilai Input Anemia')
-        
-    features = [bp,sg,al,su,rbc,pc,pcc,ba,bgr,bu,sc,sod,pot,hemo,pcv,wc,rc,htn,dm,cad,appet,pe,ane]
+    # Kolom 1
+    bp = col1.text_input('Nilai Input Blood Pressure')
+    sg = col1.text_input('Nilai Input Specific Gravity')
+    al = col1.text_input('Nilai Input Albumin')
+    su = col1.text_input('Nilai Input Sugar')
+    rbc = col1.text_input('Nilai Input Red Blood Cells')
+    pc = col1.text_input('Nilai Input Peripheral Circle')
+    pcc = col1.text_input('Nilai Input Peripheral Cell')
+    ba = col1.text_input('Nilai Input Basal Cell')
     
+    # Kolom 2
+    bgr = col2.text_input('Nilai Input Blood Glucose Random')
+    bu = col2.text_input('Nilai Input Blood Urea')
+    sc = col2.text_input('Nilai Input Serum Creatinine')
+    sod = col2.text_input('Nilai Input Sodium')
+    pot = col2.text_input('Nilai Input Potassium')
+    hemo = col2.text_input('Nilai Input Hemoglobin')
+    pcv = col2.text_input('Nilai Input Packed Cell Volume')
+    wc = col2.text_input('Nilai Input White Cell Count')
+    
+    # Kolom 3
+    rc = col3.text_input('Nilai Input Red Cell Count')
+    htn = col3.text_input('Nilai Input Hypertension')
+    dm = col3.text_input('Nilai Input Diabetes Mellitus')
+    cad = col3.text_input('Nilai Input CAD')
+    appet = col3.text_input('Nilai Input Appetite')
+    pe = col3.text_input('Nilai Input Pedal Edema')
+    ane = col3.text_input('Nilai Input Anemia')
+    
+    # Kumpulan fitur untuk prediksi
+    features = [bp, sg, al, su, rbc, pc, pcc, ba, bgr, bu, sc, sod, pot, hemo, pcv, wc, rc, htn, dm, cad, appet, pe, ane]
+    
+    # Tombol prediksi
     if st.button('Prediksi'):
-        prediction, score = predict(x, y, features)
-        score = score
-        st.info("Prediksi Berhasil")   
-    
-        if (prediction == 1):
-            st.warning("Orang Tersebut Rentan Terkena Penyakit Batu Ginjal")
+        if '' in features:
+            st.error("Anda belum mengisi semua nilai. Silakan lengkapi semua nilai sebelum melakukan prediksi.")
         else:
-            st.success("Orang Tersebut Tidak Terkena Penyakit Batu Ginjal")
-        
-        st.write("Model yang digunakan memiliki tingkat akurasi ", (score*100), "%")
+            prediction, score = predict(x, y, features)
+            st.info("Prediksi Berhasil")
+            if prediction == 1:
+                st.warning("Orang Tersebut Rentan Terkena Penyakit Batu Ginjal")
+            else:
+                st.success("Orang Tersebut Tidak Terkena Penyakit Batu Ginjal")
+            
+            st.write("Model yang digunakan memiliki tingkat akurasi ", (score * 100), "%")
+
